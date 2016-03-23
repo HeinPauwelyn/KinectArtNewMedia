@@ -13,3 +13,5 @@ C:\Users\Jonas Vanhecke\Documents\GitHub\KinectArtNewMedia\KinectArt.CSharp\Kine
 C:\Users\Jonas Vanhecke\Documents\GitHub\KinectArtNewMedia\KinectArt.CSharp\KinectArt.CSharp.App\obj\Debug\KinectArt.CSharp.App.csproj.GenerateResource.Cache
 C:\Users\Jonas Vanhecke\Documents\GitHub\KinectArtNewMedia\KinectArt.CSharp\KinectArt.CSharp.App\obj\Debug\KinectArt.CSharp.App.exe
 C:\Users\Jonas Vanhecke\Documents\GitHub\KinectArtNewMedia\KinectArt.CSharp\KinectArt.CSharp.App\obj\Debug\KinectArt.CSharp.App.pdb
+C:\Users\Jonas Vanhecke\Documents\GitHub\KinectArtNewMedia\KinectArt.CSharp\KinectArt.CSharp.App\bin\Debug\Microsoft.Kinect.dll
+C:\Users\Jonas Vanhecke\Documents\GitHub\KinectArtNewMedia\KinectArt.CSharp\KinectArt.CSharp.App\bin\Debug\Microsoft.Kinect.xml
