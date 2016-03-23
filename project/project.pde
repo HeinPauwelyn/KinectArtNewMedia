@@ -24,7 +24,7 @@ void DrawLines() {
 	for(int i = 0; i <= 100; i++) {
     	stroke(colors[int(random(colors.length))]);
     	strokeWeight(2);
-
+    	
         line(random(width), random(height), random(width), random(height));
     }
 }
