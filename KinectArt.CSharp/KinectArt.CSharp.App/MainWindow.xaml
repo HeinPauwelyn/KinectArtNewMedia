@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KinectArt.CSharp.App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="640" Width="480">
     <Grid>
-        
+        <Viewbox Grid.Row="1" Stretch="Uniform" HorizontalAlignment="Center">
+            <Image Name="Image" Width="640" Height="480"/>
+        </Viewbox>
     </Grid>
 </Window>
