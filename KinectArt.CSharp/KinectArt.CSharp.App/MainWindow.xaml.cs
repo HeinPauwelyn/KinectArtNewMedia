@@ -23,6 +23,7 @@ namespace KinectArt.CSharp.App
         public MainWindow()
         {
             InitializeComponent();
+            //Hey
         }
     }
 }
