@@ -16,8 +16,8 @@ void draw() {
 	image(kinect.depthImage(), 0, 0);
 	image(kinect.rgbImage(), 640, 0);
 
-	//DrawLines();
-	//delay(1000);
+	DrawLines();
+	delay(1000);
 }
 
 void DrawLines() {
