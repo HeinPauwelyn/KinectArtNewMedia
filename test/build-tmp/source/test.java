@@ -19,14 +19,7 @@ LineRepo repo = new LineRepo();
 public void setup() {
 
 	
-
-	for(int i = 0; i < 50; i++){
-		Line line = new Line().generate();
-
-		line.drawLine();
-		repo.addLine(line);
-	}
-
+	makeNewLines();
 }
 
 public void draw() {
@@ -37,9 +30,27 @@ public void draw() {
 		
 		line.drawLine();
 		line.move();
+
+		if (line.removed == true) {
+			repo.removeLine(line);
+		}
 	}
+
+	repo.cleanUp();
+	makeNewLines();
 	
 	delay(100);
+}
+
+public void makeNewLines(){
+
+	for(int i = repo.getAllLines().size(); i < 25; i++){
+
+		Line newLine = new Line().generate();
+
+		newLine.drawLine();
+		repo.addLine(newLine);
+	}
 }
 public class Line {
 
@@ -52,6 +63,8 @@ public class Line {
 	public int xDirection;
 	public int yDirection;
 	public int linecolor;
+  	public int opacity = 0;
+  	public Boolean removed = false;
 
 	public Line(){
 	}
@@ -60,10 +73,10 @@ public class Line {
 
 		Line newLine = new Line();
 
-		newLine.x1 = PApplet.parseInt(random(400));
+		newLine.x1 = PApplet.parseInt(random(50, 400));
 		newLine.x2 = newLine.x1 + PApplet.parseInt(random(10, 50));
 
-		newLine.y1 = PApplet.parseInt(random(500));
+		newLine.y1 = PApplet.parseInt(random(50, 400));
 		newLine.y2 = newLine.y1 + PApplet.parseInt(random(-50, 50));
 
 	    newLine.linecolor = colors[PApplet.parseInt(random(colors.length))];
@@ -87,7 +100,7 @@ public class Line {
 
 	public void drawLine() {
 		
-		stroke(linecolor);
+		stroke(linecolor, opacity);
 		strokeWeight(3);
 
 		line(x1, y1, x2, y2);
@@ -100,18 +113,37 @@ public class Line {
 		y1 = y1 + yDirection;
 		y2 = y2 + yDirection;
 
-		if (x1 <= 0 || x1 >= 500 || x2 <= 0 || x2 >= 500) {
-			xDirection = -xDirection;
+		if (x1 <= 50 || x1 >= 450 || x2 <= 50 || x2 >= 450 || y1 <= 50 || y1 >= 450 || y2 <= 50 || y2 >= 450) {
+			
+			fadeOut();
 		}
+		else if (opacity <= 255){
 
-		if (y1 <= 0 || y1 >= 500 || y2 <= 0 || y2 >= 500) {
-			yDirection = -yDirection;
+			fadeIn();
 		}
+	}
+
+	private void fadeOut(){
+
+		opacity -= 50;
+
+		if (opacity <= 0) {
+
+			 removed = true;
+			 xDirection = 0;
+			 yDirection = 0;
+		}
+	}
+
+	private void fadeIn(){
+
+		opacity += 50;
 	}
 }
 public class LineRepo {
 
 	ArrayList<Line> list = new ArrayList<Line>();
+	ArrayList<Line> removedLines = new ArrayList<Line>();
 
 	public void addLine(Line line){
 
@@ -120,6 +152,18 @@ public class LineRepo {
 
 	public ArrayList<Line> getAllLines(){
 		return list;
+	}
+
+	public void removeLine(Line line) {
+		
+		removedLines.add(line);
+	}
+
+	public void cleanUp(){
+
+		for (Line line : removedLines) {
+			list.remove(line);
+		}
 	}
 }
 

@@ -9,6 +9,8 @@ public class Line {
 	public int xDirection;
 	public int yDirection;
 	public color linecolor;
+  	public int opacity = 0;
+  	public Boolean removed = false;
 
 	public Line(){
 	}
@@ -17,10 +19,10 @@ public class Line {
 
 		Line newLine = new Line();
 
-		newLine.x1 = int(random(400));
+		newLine.x1 = int(random(50, 400));
 		newLine.x2 = newLine.x1 + int(random(10, 50));
 
-		newLine.y1 = int(random(500));
+		newLine.y1 = int(random(50, 400));
 		newLine.y2 = newLine.y1 + int(random(-50, 50));
 
 	    newLine.linecolor = colors[int(random(colors.length))];
@@ -44,7 +46,7 @@ public class Line {
 
 	public void drawLine() {
 		
-		stroke(linecolor);
+		stroke(linecolor, opacity);
 		strokeWeight(3);
 
 		line(x1, y1, x2, y2);
@@ -57,12 +59,30 @@ public class Line {
 		y1 = y1 + yDirection;
 		y2 = y2 + yDirection;
 
-		if (x1 <= 0 || x1 >= 500 || x2 <= 0 || x2 >= 500) {
-			xDirection = -xDirection;
+		if (x1 <= 50 || x1 >= 450 || x2 <= 50 || x2 >= 450 || y1 <= 50 || y1 >= 450 || y2 <= 50 || y2 >= 450) {
+			
+			fadeOut();
 		}
+		else if (opacity <= 255){
 
-		if (y1 <= 0 || y1 >= 500 || y2 <= 0 || y2 >= 500) {
-			yDirection = -yDirection;
+			fadeIn();
 		}
+	}
+
+	private void fadeOut(){
+
+		opacity -= 50;
+
+		if (opacity <= 0) {
+
+			 removed = true;
+			 xDirection = 0;
+			 yDirection = 0;
+		}
+	}
+
+	private void fadeIn(){
+
+		opacity += 50;
 	}
 }

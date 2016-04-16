@@ -3,14 +3,7 @@ LineRepo repo = new LineRepo();
 void setup() {
 
 	size(500, 500);
-
-	for(int i = 0; i < 50; i++){
-		Line line = new Line().generate();
-
-		line.drawLine();
-		repo.addLine(line);
-	}
-
+	makeNewLines();
 }
 
 void draw() {
@@ -21,7 +14,25 @@ void draw() {
 		
 		line.drawLine();
 		line.move();
+
+		if (line.removed == true) {
+			repo.removeLine(line);
+		}
 	}
+
+	repo.cleanUp();
+	makeNewLines();
 	
 	delay(100);
+}
+
+void makeNewLines(){
+
+	for(int i = repo.getAllLines().size(); i < 25; i++){
+
+		Line newLine = new Line().generate();
+
+		newLine.drawLine();
+		repo.addLine(newLine);
+	}
 }
