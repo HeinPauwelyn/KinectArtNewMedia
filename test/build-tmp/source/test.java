@@ -43,7 +43,7 @@ public void draw() {
 }
 public class Line {
 
-	private int[] colors = { 0xffE9D33F, 0xffD1A72C, 0xff42919F, 0xffFE3830, 0xffF28425 };
+	private int[] colors = {0xffEAD502, 0xffD2A815, 0xffFF3524, 0xff274254, 0xff3E91A0, 0xff9E5A25, 0xff96F00F, 0xffFF060F, 0xff52EF50, 0xff4857FE, 0xff000000};
 
 	public int x1;
 	public int x2;
@@ -60,16 +60,27 @@ public class Line {
 
 		Line newLine = new Line();
 
-		newLine.x1 = PApplet.parseInt(random(500));
-		newLine.x2 = PApplet.parseInt(random(newLine.x1 - 50, newLine.x1 + 50));
+		newLine.x1 = PApplet.parseInt(random(400));
+		newLine.x2 = newLine.x1 + PApplet.parseInt(random(10, 50));
 
 		newLine.y1 = PApplet.parseInt(random(500));
-		newLine.y2 = PApplet.parseInt(random(newLine.y1 - 50, newLine.y1 + 50));
+		newLine.y2 = newLine.y1 + PApplet.parseInt(random(-50, 50));
 
 	    newLine.linecolor = colors[PApplet.parseInt(random(colors.length))];
 
-	    newLine.xDirection = PApplet.parseInt(random(-20, 20));
-	    newLine.yDirection = PApplet.parseInt(random(-20, 20));
+	    if (PApplet.parseInt(random(0, 2)) == 0) {
+	    	newLine.xDirection = -PApplet.parseInt(random(5, 10));
+	    }
+	    else {
+	    	newLine.xDirection = PApplet.parseInt(random(5, 10));
+	    }
+
+	    if (PApplet.parseInt(random(0, 2)) == 0) {
+	    	newLine.yDirection = -PApplet.parseInt(random(5, 10));
+	    }
+	    else {
+	    	newLine.yDirection = PApplet.parseInt(random(5, 10));
+	    }
 
 	    return newLine;
 	}
@@ -77,7 +88,7 @@ public class Line {
 	public void drawLine() {
 		
 		stroke(linecolor);
-		strokeWeight(2);
+		strokeWeight(3);
 
 		line(x1, y1, x2, y2);
 	}
@@ -88,6 +99,14 @@ public class Line {
 		x2 = x2 + xDirection;
 		y1 = y1 + yDirection;
 		y2 = y2 + yDirection;
+
+		if (x1 <= 0 || x1 >= 500 || x2 <= 0 || x2 >= 500) {
+			xDirection = -xDirection;
+		}
+
+		if (y1 <= 0 || y1 >= 500 || y2 <= 0 || y2 >= 500) {
+			yDirection = -yDirection;
+		}
 	}
 }
 public class LineRepo {
