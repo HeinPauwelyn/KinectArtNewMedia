@@ -20,7 +20,7 @@ public class Line {
 		Line newLine = new Line();
 
 		newLine.x1 = int(random(50, 400));
-		newLine.x2 = newLine.x1 + int(random(10, 50));
+		newLine.x2 = newLine.x1 + int(random(-50, 50));
 
 		newLine.y1 = int(random(50, 400));
 		newLine.y2 = newLine.y1 + int(random(-50, 50));

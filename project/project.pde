@@ -1,7 +1,7 @@
 import SimpleOpenNI.*;
 SimpleOpenNI kinect;
 
-color[] colors = { #E9D33F, #D1A72C, #42919F, #FE3830, #F28425 };
+LineRepo repo = new LineRepo(); 
 
 void setup() {
 	size(640, 480);
@@ -9,22 +9,42 @@ void setup() {
 
 	kinect.enableDepth();
 	kinect.enableRGB();
+        kinect.enableUser();
+        kinect.alternativeViewPointDepthToImage();
 }
 
 void draw() {
-	kinect.update();
-	image(kinect.depthImage(), 0, 0);
-	image(kinect.rgbImage(), 640, 0);
-
-	DrawLines();
-	delay(1000);
+        clear();
+        
+  	kinect.update();
+	//image(kinect.depthImage(), 0, 0);
+ 
+        for (Line line : repo.getAllLines()) {
+          
+          
+      
+          if (line.removed == true) {
+            repo.removeLine(line);
+          }
+          else
+          {
+            line.drawLine();
+          line.move(kinect);
+          }
+        }
+      
+        repo.cleanUp();
+        makeNewLines();
 }
 
-void DrawLines() {
-	for(int i = 0; i <= 100; i++) {
-    	stroke(colors[int(random(colors.length))]);
-    	strokeWeight(2);
-    	
-        line(random(width), random(height), random(width), random(height));
+void makeNewLines(){
+  for(int i = repo.getAllLines().size(); i < 200; i++){
+
+    Line newLine = new Line().generate(kinect);
+
+    if (newLine.removed == false){
+      newLine.drawLine();
+      repo.addLine(newLine);
     }
+  }
 }
