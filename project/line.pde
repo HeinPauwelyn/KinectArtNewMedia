@@ -13,6 +13,7 @@ public class Line {
 	public color linecolor;
   	public int opacity = 255;
   	public Boolean removed = false;
+        public float rotation;
 
 	public Line(){
 	}
@@ -27,6 +28,8 @@ public class Line {
 		newLine.y1 = int(random(0, 480));
 		newLine.y2 = newLine.y1 + int(random(-20, 20));
 
+                //rotation = random(0, 360);
+                
             if (checkIfPointInUser(context, newLine.x1, newLine.y1)){
 
           	    newLine.linecolor = colors[int(random(colors.length))];
@@ -56,6 +59,7 @@ public class Line {
 		
 		stroke(linecolor, opacity);
 		strokeWeight(3);
+                //rotate(rotation);
 		line(x1, y1, x2, y2);
 	}
 
@@ -86,7 +90,7 @@ public class Line {
 
 	private void fadeIn(){
 
-		opacity += 50;
+		opacity += 100;
 	}
 
         private Boolean checkIfPointInUser(SimpleOpenNI context, int x, int y) {
