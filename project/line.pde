@@ -18,35 +18,29 @@ public class Line {
 	public Line(){
 	}
 
-	public Line generate(SimpleOpenNI context){
+	public SmartLine generate(SimpleOpenNI context){
   
-		Line newLine = new Line();
+		SmartLine newLine = new SmartLine();
 
-		newLine.x1 = int(random(0, 640));
-		newLine.x2 = newLine.x1 + int(random(-20, 20));
-
-		newLine.y1 = int(random(0, 480));
-		newLine.y2 = newLine.y1 + int(random(-20, 20));
-
-                //rotation = random(0, 360);
+                generatePoint(newLine);
                 
             if (checkIfPointInUser(context, newLine.x1, newLine.y1)){
 
-          	    newLine.linecolor = colors[int(random(colors.length))];
+                generateColor(newLine);
           
-          	    if (int(random(0, 2)) == 0) {
-          	    	newLine.xDirection = -int(random(1, 5));
-          	    }
-          	    else {
-          	    	newLine.xDirection = int(random(1, 5));
-          	    }
+                if (int(random(0, 2)) == 0) {
+                  newLine.xDirection = -int(random(1, 5));
+                }
+                else {
+                  newLine.xDirection = int(random(1, 5));
+                }
           
-          	    if (int(random(0, 2)) == 0) {
-          	    	newLine.yDirection = -int(random(1, 5));
-          	    }
-          	    else {
-          	    	newLine.yDirection = int(random(1, 5));
-          	    }
+                if (int(random(0, 2)) == 0) {
+                  newLine.yDirection = -int(random(1, 5));
+                }
+                else {
+                  newLine.yDirection = int(random(1, 5));
+                }
             }
             else {
               newLine.removed = true;
@@ -55,9 +49,21 @@ public class Line {
 	    return newLine;
 	}
 
-	public void drawLine() {
+        protected void generatePoint(Line newLine) {
+            newLine.x1 = int(random(0, 640));
+            newLine.x2 = newLine.x1 + int(random(5, 20));
+        
+            newLine.y1 = int(random(0, 480));
+            newLine.y2 = newLine.y1 + int(random(5, 20));
+        }
+
+        protected void generateColor(Line newLine) {
+          newLine.linecolor = colors[int(random(colors.length))];
+        }
+
+	public void drawLine(color selectedColor) {
 		
-		stroke(linecolor, opacity);
+		stroke(selectedColor, opacity);
 		strokeWeight(3);
                 //rotate(rotation);
 		line(x1, y1, x2, y2);
@@ -93,8 +99,9 @@ public class Line {
 		opacity += 100;
 	}
 
-        private Boolean checkIfPointInUser(SimpleOpenNI context, int x, int y) {
+        protected Boolean checkIfPointInUser(SimpleOpenNI context, int x, int y) {
 
+                try {
                 int[] userMap = context.userMap();
 
                 int index = x + y * context.depthWidth();
@@ -102,5 +109,7 @@ public class Line {
                     return userMap != null && userMap[index] > 0;
                 }
                 return false; 
+                }
+                catch(Exception ex) { return false; }
         }
 }

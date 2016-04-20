@@ -1,25 +1,25 @@
 public class LineRepo {
 
-	ArrayList<Line> list = new ArrayList<Line>();
-	ArrayList<Line> removedLines = new ArrayList<Line>();
+	ArrayList<SmartLine> list = new ArrayList<SmartLine>();
+	ArrayList<SmartLine> removedLines = new ArrayList<SmartLine>();
 
-	public void addLine(Line line){
+	public void addLine(SmartLine line){
 
 		list.add(line);
 	}
 
-	public ArrayList<Line> getAllLines(){
+	public ArrayList<SmartLine> getAllLines(){
 		return list;
 	}
 
-	public void removeLine(Line line) {
+	public void removeLine(SmartLine line) {
 		
 		removedLines.add(line);
 	}
 
 	public void cleanUp(){
 
-		for (Line line : removedLines) {
+		for (SmartLine line : removedLines) {
 			list.remove(line);
 		}
 	}

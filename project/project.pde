@@ -1,7 +1,8 @@
 import SimpleOpenNI.*;
 SimpleOpenNI kinect;
 
-LineRepo repo = new LineRepo(); 
+LineRepo lineRepo = new LineRepo();
+ColorRepo colorRepo = new ColorRepo();
 
 void setup() {
 	size(640, 480);
@@ -16,35 +17,35 @@ void setup() {
 void draw() {
         clear();
         
+        colorRepo.generateColor();
+        
   	kinect.update();
 	//image(kinect.depthImage(), 0, 0);
  
-        for (Line line : repo.getAllLines()) {
-          
-          
-      
+        for (SmartLine line : lineRepo.getAllLines()) {
+              
           if (line.removed == true) {
-            repo.removeLine(line);
+            lineRepo.removeLine(line);
           }
           else
           {
-            line.drawLine();
+            line.drawLine(colorRepo.selectedColor);
           line.move(kinect);
           }
         }
       
-        repo.cleanUp();
+        lineRepo.cleanUp();
         makeNewLines();
 }
 
 void makeNewLines(){
-  for(int i = repo.getAllLines().size(); i < 200; i++){
+  for(int i = lineRepo.getAllLines().size(); i < 200; i++){
 
-    Line newLine = new Line().generate(kinect);
+    SmartLine newLine = new SmartLine().generate(kinect);
 
     if (newLine.removed == false){
-      newLine.drawLine();
-      repo.addLine(newLine);
+      newLine.drawLine(colorRepo.selectedColor);
+      lineRepo.addLine(newLine);
     }
   }
 }
