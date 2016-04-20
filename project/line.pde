@@ -10,7 +10,8 @@ public class Line {
 	public int y2;
 	public int xDirection;
 	public int yDirection;
-	public color linecolor;
+        public int sat;
+        public int bright;
   	public int opacity = 255;
   	public Boolean removed = false;
         public float rotation;
@@ -18,36 +19,26 @@ public class Line {
 	public Line(){
 	}
 
-	public SmartLine generate(SimpleOpenNI context){
+	public Line generate(SimpleOpenNI context){
   
-		SmartLine newLine = new SmartLine();
-
-                generatePoint(newLine);
-                
-            if (checkIfPointInUser(context, newLine.x1, newLine.y1)){
-
-                generateColor(newLine);
-          
-                if (int(random(0, 2)) == 0) {
-                  newLine.xDirection = -int(random(1, 5));
-                }
-                else {
-                  newLine.xDirection = int(random(1, 5));
-                }
-          
-                if (int(random(0, 2)) == 0) {
-                  newLine.yDirection = -int(random(1, 5));
-                }
-                else {
-                  newLine.yDirection = int(random(1, 5));
-                }
-            }
-            else {
-              newLine.removed = true;
-            }
-
-	    return newLine;
-	}
+		    Line line = new Line();
+    
+                    generatePoint(line);
+                    
+                    if (checkIfPointInUser(context, line.x1, line.y1)){
+                    
+                        generateColor(line);
+                        
+                        line.xDirection = (line.x2 - line.x1) / 4;
+                        line.yDirection = (line.y2 - line.y1) / 4;
+                    }
+                    else {
+                       line.removed = true;
+                    }
+                    
+                    return line;
+                  
+        }
 
         protected void generatePoint(Line newLine) {
             newLine.x1 = int(random(0, 640));
@@ -58,14 +49,14 @@ public class Line {
         }
 
         protected void generateColor(Line newLine) {
-          newLine.linecolor = colors[int(random(colors.length))];
+          newLine.sat = int(random(127,255));
+          newLine.bright = int(random(127,255));
         }
 
-	public void drawLine(color selectedColor) {
+	public void drawLine(int hue) {
 		
-		stroke(selectedColor, opacity);
+		stroke(hue, sat, bright, opacity);
 		strokeWeight(3);
-                //rotate(rotation);
 		line(x1, y1, x2, y2);
 	}
 
@@ -113,3 +104,4 @@ public class Line {
                 catch(Exception ex) { return false; }
         }
 }
+
