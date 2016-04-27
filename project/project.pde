@@ -3,60 +3,99 @@ SimpleOpenNI kinect;
 
 LineRepo lineRepo = new LineRepo();
 int hue;
+boolean manual = true;
+boolean save = false;
 
 void setup() {
-	size(640, 480);
+  size(640, 480);
+   
   colorMode(HSB);
-	kinect = new SimpleOpenNI(this);
 
-	kinect.enableDepth();
-	kinect.enableRGB();
+  kinect = new SimpleOpenNI(this);
+  kinect.enableDepth();
   kinect.enableUser();
-  kinect.alternativeViewPointDepthToImage();
 }
 
 void draw() {
   clear();
-        
+  
+  background(58, 0, 200);
   kinect.update();
  
   for (Line line : lineRepo.getAllLines()) {
 
+    changeHue();
+    
     if (line.removed == true) {
       lineRepo.removeLine(line);
     }
     else
-    {
-      changeHue();          
+    {       
       line.drawLine(hue);
       line.move(kinect);
     }
-
-  }      
+  }  
 
   lineRepo.cleanUp();
   makeNewLines();
+  
+  if(!save) {
+    
+    textSize(15);
+    fill(0, 0, 360);
+    
+    text("Press SHIFT to change:", 10, 20);
+    text("Press UP or DOWN to change color", 10, 40);
+    text("Press ENTER or RETURN for a picture", 10, 60);
+    
+    if(manual) {
+      text("Manually", 180, 20); 
+    }
+    else {
+      text("Automatic", 180, 20); 
+    }
+  } else {
+    saveFrame("capture####.png");
+    save = false;  
+  }
 }
 
 void changeHue(){
-  if (int(random(100)) == 20){  
-    if (hue++ > 255){
-      hue = 0;
+  if(!manual) {
+    if (int(random(100)) == 20){  
+      if (hue++ > 255){
+        hue = 0;
+      }
     }
   }
 }
 
 void makeNewLines(){
-  for(int i = lineRepo.getAllLines().size(); i < 200; i++){
+  for(int i = lineRepo.getAllLines().size(); i < 400; i++){
 
-    Line newLine = new Line().generate(kinect);
+    Line newLine = new Line(kinect);
 
     if (newLine.removed == false){
-      changeHue();
-      
       newLine.drawLine(hue);
       lineRepo.addLine(newLine);
     }
   }
+}
+
+void keyPressed() {
+  if (key == CODED) {
+    if(keyCode == SHIFT) {
+      manual = !manual;
+    } 
+    else if(keyCode == UP) {
+      hue++;
+    }
+    else if(keyCode == DOWN) {
+      hue--;
+    }
+  }
   
+  if(key == ENTER || key == RETURN) {
+    save = true;
+  }
 }
