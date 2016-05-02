@@ -1,7 +1,8 @@
 import SimpleOpenNI.*;
-SimpleOpenNI kinect;
 
-LineRepo lineRepo = new LineRepo();
+SimpleOpenNI kinect;
+LineRepo lineRepo;
+
 int hue;
 boolean manual = true;
 boolean save = false;
@@ -11,6 +12,7 @@ void setup() {
    
   colorMode(HSB);
 
+  lineRepo = LineRepo.getInstance();
   kinect = new SimpleOpenNI(this);
   kinect.enableDepth();
   kinect.enableUser();
@@ -22,12 +24,12 @@ void draw() {
   background(58, 0, 200);
   kinect.update();
  
-  for (Line line : lineRepo.getAllLines()) {
+  for (Line line : LineRepo.instance.getAllLines()) {
 
     changeHue();
     
     if (line.removed == true) {
-      lineRepo.removeLine(line);
+      LineRepo.instance.removeLine(line);
     }
     else
     {       
@@ -36,7 +38,7 @@ void draw() {
     }
   }  
 
-  lineRepo.cleanUp();
+  LineRepo.instance.cleanUp();
   makeNewLines();
   
   if(!save) {
@@ -71,13 +73,13 @@ void changeHue(){
 }
 
 void makeNewLines(){
-  for(int i = lineRepo.getAllLines().size(); i < 400; i++){
+  for(int i = LineRepo.instance.getAllLines().size(); i < 400; i++){
 
     Line newLine = new Line(kinect);
 
     if (newLine.removed == false){
       newLine.drawLine(hue);
-      lineRepo.addLine(newLine);
+      LineRepo.instance.addLine(newLine);
     }
   }
 }

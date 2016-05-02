@@ -3,6 +3,8 @@ import processing.data.*;
 import processing.event.*; 
 import processing.opengl.*; 
 
+import SimpleOpenNI.*; 
+
 import java.util.HashMap; 
 import java.util.ArrayList; 
 import java.io.File; 
@@ -14,26 +16,26 @@ import java.io.IOException;
 
 public class project extends PApplet {
 
-//import SimpleOpenNI.*;
-//SimpleOpenNI kinect;
+
+SimpleOpenNI kinect;
 
 int[] colors = { 0xffE9D33F, 0xffD1A72C, 0xff42919F, 0xffFE3830, 0xffF28425 };
 
 public void setup() {
 	
-	//kinect = new SimpleOpenNI(this);
+	kinect = new SimpleOpenNI(this);
 
-	//kinect.enableDepth();
-	//kinect.enableRGB();
+	kinect.enableDepth();
+	kinect.enableRGB();
 }
 
 public void draw() {
-	//kinect.update();
-	//image(kinect.depthImage(), 0, 0);
-	//image(kinect.rgbImage(), 640, 0);
+	kinect.update();
+	image(kinect.depthImage(), 0, 0);
+	image(kinect.rgbImage(), 640, 0);
 
-	//DrawLines();
-	//delay(1000);
+	DrawLines();
+	delay(1000);
 }
 
 public void DrawLines() {
